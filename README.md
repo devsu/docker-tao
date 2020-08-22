@@ -9,7 +9,7 @@ The easiest way to run tao is using docker-compose.
 2. Modify the `tao/docker-compose.yml` and `tao/nginx` according to your needs.
 3. Then just run `docker-compose up` from the `tao` folder.
 
-Then just head to http://localhost to start installation
+Then just head to http://localhost to start installation.
 
 At installation make sure that you choose the following folder to store data: `/var/lib/tao/data`. As you can see in `php-fpm/Dockerfile`, a volume has been defined for this folder. 
 
@@ -17,21 +17,21 @@ Since this folder is created only in the `php-fpm` image, it won't be accessible
 
 ## Approach
 
-All the images are built in top of alpine, to avoid issues of different ids for the `www-data` user.
-
 The `docker-compose.yml` file defines 3 services:
 
-- **code**: A container that has the application code built from the source code
-- **php-fpm**: The container that will run the application
-- **web**: An nginx web server
+- **code**: A container that has the application built from the source code.
+- **php-fpm**: The container that will run the application.
+- **web**: An nginx web server.
 
-The three of them share a named volume, which contain the application code. 
+The three of them share a named volume, which contain the application code.
+
+All images are built in top of Linux alpine, to avoid issues of different ids for the `www-data` user. 
 
 ## Building TAO
 
 The Dockerfile at the `builder` folder builds TAO from the source code releases at https://github.com/oat-sa/package-tao/releases.
 
-It's published in docker-hub at ... , but if you want, you can build it yourself. 
+It's published in docker-hub at https://hub.docker.com/repository/docker/devsu/tao-code, but if you want, you can build it yourself. 
 
 ```
 docker build -t tao-code -f builder/Dockerfile
@@ -57,7 +57,7 @@ docker-compose up --build -f docker-compose-file-dev.yml
 
 Thanks to [Open Assessment Technologies](https://www.taotesting.com/about-us/) for the awesome work, and for sharing it with the world.
 
-The `php-fpm` and `nginx` images were heavily inspired on https://github.com/Alroniks/docker-tao.
+The `php-fpm` and `nginx` images were inspired on https://github.com/Alroniks/docker-tao.
 
 This repo is maintained by Devsu, and it's used to take assessments to [find the best software developers](https://devsu.com/about-us/) for the US market.
 

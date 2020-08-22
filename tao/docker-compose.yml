@@ -1,12 +1,12 @@
 version: "3"
 services:
   code:
-    image: devsu/docker-tao:latest-code
+    image: devsu/tao-code:latest
     volumes:
       - tao-code:/usr/src/tao
 
   php-fpm:
-    image: devsu/docker-tao:latest-phpfpm
+    image: devsu/tao-phpfpm:latest
     depends_on:
       - code
     volumes:
