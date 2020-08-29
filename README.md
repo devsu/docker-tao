@@ -69,4 +69,4 @@ This repo is maintained by Devsu, and it's used to take assessments to [find the
 
 ## License
 
-MIT License - Copyright (c) 2020 Devsu LLC
+MIT License - Copyright (c) 2020 Devsu LLC.
