@@ -1,14 +1,7 @@
 version: "3"
 services:
-  code:
-    image: devsu/tao-code:latest
-    volumes:
-      - tao-code:/usr/src/tao
-
-  php-fpm:
-    image: devsu/tao-phpfpm:latest
-    depends_on:
-      - code
+  tao:
+    build: ../
     volumes:
       - tao-code:/var/www/html
 
@@ -17,7 +10,7 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - code
+      - tao
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - tao-code:/var/www/html
