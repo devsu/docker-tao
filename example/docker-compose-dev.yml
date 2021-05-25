@@ -4,8 +4,10 @@ services:
     build: ../
     volumes:
       - tao-code:/var/www/html
+    entrypoint: docker-entrypoint.sh
+    env_file: ../.env
 
-  web:
+  #web:
     image: nginx:1.19
     ports:
       - "80:80"
