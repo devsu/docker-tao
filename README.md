@@ -44,19 +44,26 @@ docker build --target builder -t tao --env DB_HOST=[value1] --env DB_NAME=[value
 ```
 It's necessary to define the next environment variables:
 
-- DB_HOST: Database location.
+- DB_HOST: Database location. You can use a hostname like localhost or an IP address like 127.0.0.1.
 - DB_NAME: Name of the database used to store data from TAO platform.
 - DB_USER: Login to access to database.
 - DB_PASSWORD: Password to access to database.
 - USER: The login of the administrator to be created.
-- PASSWORD: The password of the administrator.
+- PASSWORD: The password of the administrator. This password must alphanumeric with 10 characters length.
 
 Other enviroment variables that you can define are:
 
-- FILE_PATH: Path to where asset files should be stored.
-- DB_DRIVER: Driver engine to connect TAO platform with a database.
-- DB_PORT: Network port used to connect database host.
-- URL: The URL to access to platform from web browser.
+- FILE_PATH: Path to where asset files should be stored. The default is /var/lib/tao/data.
+- DB_DRIVER: Driver engine to connect TAO platform with a database. The default is pdo_mysql. You must add other engines as pdo_pgsql, pdo_sqlsrv or pdo_oci in the docker file in order to use it.
+- DB_PORT: Network port used to connect database host. The default is 3306.
+- URL: The URL to access to platform from web browser. The default is http://localhost but you use it other with https protocol once you defined in DNS configuration.
+
+
+The image using docker-compose-wait (https://github.com/ufoscout/docker-compose-wait/) in order to wait until have a successfull database connection and proceed to install the platform. The environment variables that we can define for this tool are:
+
+- WAIT_HOSTS_TIMEOUT: Max number of seconds to wait for all the hosts/paths to be available before failure. The default is 30 seconds.
+- WAIT_SLEEP_INTERVAL: Max number of seconds to sleep between retries. The default is 1 second.
+- WAIT_HOST_CONNECT_TIMEOUT: The timeout of a single TCP connection to a remote host before attempting a new connection. The default is 5 seconds.
 
 
 You can define environment variables inside a .env file instead to pass all them in the build command:
