@@ -6,12 +6,13 @@ services:
       - database
     volumes:
       - tao-code:/var/www/html
-    env_file: ../.env
     environment:
-      - WAIT_HOSTS=example_database_1:3306
-      - WAIT_HOSTS_TIMEOUT=300
-      - WAIT_SLEEP_INTERVAL=30
-      - WAIT_HOST_CONNECT_TIMEOUT=30
+      - DB_HOST=example_database_1
+      - DB_NAME=tao
+      - DB_USER=root
+      - DB_PASSWORD=r00t
+      - USER=tao
+      - PASSWORD=t8CzwkSX8Eml2oeA
 
   web:
     image: nginx:1.19
@@ -28,8 +29,6 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     ports:
       - "3306:3306"
-    security_opt:
-      - seccomp:unconfined
     environment:
       MYSQL_ROOT_PASSWORD: r00t
       MYSQL_USER: tao

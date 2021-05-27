@@ -40,28 +40,36 @@ As you can see in the Dockerfile, TAO is built from the source code releases at 
 It's published in docker-hub at https://hub.docker.com/repository/docker/devsu/tao, but if you want, you can build it yourself. 
 
 ```
+docker build --target builder -t tao --env DB_HOST=[value1] --env DB_NAME=[value2] --env DB_NAME=[value3] --env DB_USER=[value4] --env DB_PASSWORD=[value5] --env USER=[value6] --env PASSWORD=[value7]
+```
+It's necessary to define the next environment variables:
+
+- DB_HOST: Database location.
+- DB_NAME: Name of the database used to store data from TAO platform.
+- DB_USER: Login to access to database.
+- DB_PASSWORD: Password to access to database.
+- USER: The login of the administrator to be created.
+- PASSWORD: The password of the administrator.
+
+Other enviroment variables that you can define are:
+
+- FILE_PATH: Path to where asset files should be stored.
+- DB_DRIVER: Driver engine to connect TAO platform with a database.
+- DB_PORT: Network port used to connect database host.
+- URL: The URL to access to platform from web browser.
+
+
+You can define environment variables inside a .env file instead to pass all them in the build command:
+
+```
 docker build --target builder -t tao --env-file .env
 ```
-
-TAO platform is installed automatically using .env file where we store the next installation params:
-
-FILE_PATH: Path to where asset files should be stored.
-DB_DRIVER: Driver engine to connect TAO platform with a database.
-DB_HOST: Database location.
-DB_NAME: Name of the database used to store data from TAO platform.
-DB_USER: Login to access to database.
-DB_PASSWORD: Password to access to database.
-URL: The URL to access to platform from web browser.
-USER: The login of the administrator to be created.
-PASSWORD: The password of the administrator.  
-
-These parameters could be changed according with the configuration to be used.
 
 
 TAO platform is configured to use the latest tao version at moment, but you can easily change the version by passing the `TAO_VERSION` argument.
 
 ```
-docker build --target builder -t tao --build-arg TAO_VERSION=3.3-rc02 --env-file .env
+docker build --target builder -t tao --build-arg TAO_VERSION=3.3-rc02
 ```
 
 The version must match the version used in the name of the source code zip file.

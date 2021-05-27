@@ -13,10 +13,10 @@ if [ ! -f "/var/www/html/config/generis.conf.php" ]; then
     #Add DEBUG_MODE as false in order to have system in production mode.
     echo "define('DEBUG_MODE', false);" >> /var/www/html/config/generis.conf.php
 
-    echo "TAO platform was successully installed. Please go to $TAO_HOST with the $TAO_USER as user and $TAO_PASSWORD as password. Once inside the system, change the password for security reasons."
+    echo "TAO platform was successully installed. Please go to $TAO_HOST to access."
    
 else
     echo "Systems ready. Please enter to your TAO platform through your browser."
 fi
 
-exec "$@"
+php-fpm
