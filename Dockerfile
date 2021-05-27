@@ -27,7 +27,7 @@ RUN curl -o tao.zip -LJO https://github.com/oat-sa/package-tao/archive/v${TAO_VE
 FROM php:7.3-fpm-alpine as runner
 
 RUN apk update
-RUN apk add --no-cache libpng-dev jpeg-dev postgresql-dev zip unzip sudo wget sqlite sqlite-dev zstd-dev libzip-dev mysql-client
+RUN apk add --no-cache libpng-dev jpeg-dev postgresql-dev zip unzip sudo wget sqlite sqlite-dev zstd-dev libzip-dev
 
 RUN docker-php-ext-configure gd --with-jpeg-dir=/usr/include/
 RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
@@ -56,9 +56,15 @@ RUN mkdir -p /var/lib/tao/data && chown www-data:www-data /var/lib/tao/data
 
 VOLUME /var/lib/tao/data
 
+ENV WAIT_VERSION 2.7.2
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERSION/wait /wait
+RUN chmod +x /wait
+
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 RUN env
 
 CMD ["php-fpm"]
+
+CMD /wait && docker-entrypoint.sh
