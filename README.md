@@ -40,13 +40,28 @@ As you can see in the Dockerfile, TAO is built from the source code releases at 
 It's published in docker-hub at https://hub.docker.com/repository/docker/devsu/tao, but if you want, you can build it yourself. 
 
 ```
-docker build --target builder -t tao
+docker build --target builder -t tao --env-file .env
 ```
 
-It's configured to use the latest tao version at moment, but you can easily change the version by passing the `TAO_VERSION` argument.
+TAO platform is installed automatically using .env file where we store the next installation params:
+
+FILE_PATH: Path to where asset files should be stored.
+DB_DRIVER: Driver engine to connect TAO platform with a database.
+DB_HOST: Database location.
+DB_NAME: Name of the database used to store data from TAO platform.
+DB_USER: Login to access to database.
+DB_PASSWORD: Password to access to database.
+URL: The URL to access to platform from web browser.
+USER: The login of the administrator to be created.
+PASSWORD: The password of the administrator.  
+
+These parameters could be changed according with the configuration to be used.
+
+
+TAO platform is configured to use the latest tao version at moment, but you can easily change the version by passing the `TAO_VERSION` argument.
 
 ```
-docker build --target builder -t tao --build-arg TAO_VERSION=3.3-rc02
+docker build --target builder -t tao --build-arg TAO_VERSION=3.3-rc02 --env-file .env
 ```
 
 The version must match the version used in the name of the source code zip file.
