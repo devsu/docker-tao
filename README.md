@@ -15,6 +15,35 @@ At installation make sure that you choose the following folder to store data: `/
 
 Since this folder is created only in the `tao` image, it won't be accessible by the `web` container, which is good for security reasons.
 
+
+You can execute this docker image building (specified in next sections) and run the next command:
+
+docker run --env DB_HOST=https://example.org --env DB_NAME=myDB --env DB_USER=myDBUser --env DB_PASSWORD=myDBPass --env USER=myTaoAdminUser --env PASSWORD=myTenLengthAlfanumericTaoAdminPassword tao
+
+It's necessary to define the next environment variables:
+
+- DB_HOST: Database location. You can use a hostname like localhost or an IP address like 127.0.0.1.
+- DB_NAME: Name of the database used to store data from TAO platform.
+- DB_USER: Login to access to database.
+- DB_PASSWORD: Password to access to database.
+- USER: The login of the administrator to be created.
+- PASSWORD: The password of the administrator. This password must alphanumeric with 10 characters length.
+
+Other enviroment variables that you can define are:
+
+- FILE_PATH: Path to where asset files should be stored. The default is /var/lib/tao/data.
+- DB_DRIVER: Driver engine to connect TAO platform with a database. The default is pdo_mysql. You must add other engines as pdo_pgsql, pdo_sqlsrv or pdo_oci in the docker file in order to use it.
+- DB_PORT: Network port used to connect database host. The default is 3306.
+- URL: The URL to access to platform from web browser. The default is http://localhost but you use it other with https protocol once you defined in DNS configuration.
+
+The image is using docker-compose-wait (https://github.com/ufoscout/docker-compose-wait/) in order to wait until have a successfull database connection and proceed to install the platform. The environment variables that we can define for this tool are:
+
+- WAIT_HOSTS_TIMEOUT: Max number of seconds to wait for all the hosts/paths to be available before failure. The default is 30 seconds.
+- WAIT_SLEEP_INTERVAL: Max number of seconds to sleep between retries. The default is 1 second.
+- WAIT_HOST_CONNECT_TIMEOUT: The timeout of a single TCP connection to a remote host before attempting a new connection. The default is 5 seconds.
+
+WAIT_HOSTS is the main variable used for docker-compose-wait to know which hosts needs to wait, but our image build this variable automatically from DB_HOST and DB_PORT variables.
+
 ## Approach
 
 The `tao` image is built using [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/).
@@ -40,38 +69,8 @@ As you can see in the Dockerfile, TAO is built from the source code releases at 
 It's published in docker-hub at https://hub.docker.com/repository/docker/devsu/tao, but if you want, you can build it yourself. 
 
 ```
-docker build --target builder -t tao --env DB_HOST=[value1] --env DB_NAME=[value2] --env DB_NAME=[value3] --env DB_USER=[value4] --env DB_PASSWORD=[value5] --env USER=[value6] --env PASSWORD=[value7]
+docker build --target builder -t tao
 ```
-It's necessary to define the next environment variables:
-
-- DB_HOST: Database location. You can use a hostname like localhost or an IP address like 127.0.0.1.
-- DB_NAME: Name of the database used to store data from TAO platform.
-- DB_USER: Login to access to database.
-- DB_PASSWORD: Password to access to database.
-- USER: The login of the administrator to be created.
-- PASSWORD: The password of the administrator. This password must alphanumeric with 10 characters length.
-
-Other enviroment variables that you can define are:
-
-- FILE_PATH: Path to where asset files should be stored. The default is /var/lib/tao/data.
-- DB_DRIVER: Driver engine to connect TAO platform with a database. The default is pdo_mysql. You must add other engines as pdo_pgsql, pdo_sqlsrv or pdo_oci in the docker file in order to use it.
-- DB_PORT: Network port used to connect database host. The default is 3306.
-- URL: The URL to access to platform from web browser. The default is http://localhost but you use it other with https protocol once you defined in DNS configuration.
-
-
-The image using docker-compose-wait (https://github.com/ufoscout/docker-compose-wait/) in order to wait until have a successfull database connection and proceed to install the platform. The environment variables that we can define for this tool are:
-
-- WAIT_HOSTS_TIMEOUT: Max number of seconds to wait for all the hosts/paths to be available before failure. The default is 30 seconds.
-- WAIT_SLEEP_INTERVAL: Max number of seconds to sleep between retries. The default is 1 second.
-- WAIT_HOST_CONNECT_TIMEOUT: The timeout of a single TCP connection to a remote host before attempting a new connection. The default is 5 seconds.
-
-
-You can define environment variables inside a .env file instead to pass all them in the build command:
-
-```
-docker build --target builder -t tao --env-file .env
-```
-
 
 TAO platform is configured to use the latest tao version at moment, but you can easily change the version by passing the `TAO_VERSION` argument.
 
