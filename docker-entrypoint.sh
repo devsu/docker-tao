@@ -20,9 +20,9 @@ if [ ! -f "/var/www/html/config/generis.conf.php" ]; then
     export replace="define('DEBUG_MODE', false);"
     sed -i "s/$search/$replace/" /var/www/html/config/generis.conf.php
 
-    #Give permissions in order to create respective assets and files to run TAO platform.
-    chmod -R 755 /var/www/html/
-    chmod -R 777 /var/lib/tao/data/
+    #Change property of TAO directories to user www-data again.
+    chown -R www-data:www-data /var/www/html
+    chown -R www-data:www-data /var/lib/tao/data
 
     echo "TAO platform was successully installed. TAO running at $URL."
    
