@@ -7,12 +7,12 @@ services:
     volumes:
       - tao-code:/var/www/html
     environment:
-      - DB_HOST=example_database_1
-      - DB_NAME=tao
-      - DB_USER=root
-      - DB_PASSWORD=r00t
-      - USER=tao
-      - PASSWORD=t8CzwkSX8Eml2oeA
+      DB_HOST: example_database_1
+      DB_NAME: tao
+      DB_USER: root
+      DB_PASSWORD: r00t
+      USER: tao
+      PASSWORD: t8CzwkSX8Eml2oeA
 
   web:
     image: nginx:1.19
