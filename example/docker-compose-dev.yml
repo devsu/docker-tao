@@ -2,8 +2,17 @@ version: "3"
 services:
   tao:
     build: ../
+    depends_on:
+      - database
     volumes:
       - tao-code:/var/www/html
+    environment:
+      DB_HOST: example_database_1
+      DB_NAME: tao
+      DB_USER: root
+      DB_PASSWORD: r00t
+      USER: myTaoAdminUser
+      PASSWORD: myTenLengthAlfanumericTaoAdminPassword
 
   web:
     image: nginx:1.19
@@ -25,6 +34,8 @@ services:
       MYSQL_USER: tao
       MYSQL_PASSWORD: tao
       MYSQL_DATABASE: tao
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
 
 volumes:
   tao-code:
