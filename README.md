@@ -3,7 +3,7 @@ Docker images for building and running [TAO Assessment Platform](https://www.tao
 
 ## Usage
 
-The easiest way to run tao is using docker-compose. 
+The image is published in docker hub at devsu/tao. The easiest way to run tao is using docker-compose. 
 
 1. Clone this repo (or just copy the files in the `example` folder).
 2. Modify the `tao/docker-compose.yml` and `tao/nginx` according to your needs.
@@ -15,10 +15,9 @@ At installation make sure that you choose the following folder to store data: `/
 
 Since this folder is created only in the `tao` image, it won't be accessible by the `web` container, which is good for security reasons.
 
+If you don't want to use docker-compose, you can also install and run TAO using the following command:
 
-You can execute this docker image building (specified in next sections) and run the next command:
-
-docker run --env DB_HOST=https://example.org --env DB_NAME=myDB --env DB_USER=myDBUser --env DB_PASSWORD=myDBPass --env USER=myTaoAdminUser --env PASSWORD=myTenLengthAlfanumericTaoAdminPassword tao
+docker run --env DB_HOST=https://example.org --env DB_NAME=myDB --env DB_USER=myDBUser --env DB_PASSWORD=myDBPass --env USER=myTaoAdminUser --env PASSWORD=myTenLengthAlfanumericTaoAdminPassword devsu/tao
 
 It's necessary to define the next environment variables:
 

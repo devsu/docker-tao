@@ -13,16 +13,12 @@ if [ ! -f "/var/www/html/config/generis.conf.php" ]; then
     echo "Entering to TAO installer. We recommend to use default installation values if you are using the docker compose example."
 
     #Increase max execution time on fly to install system.
-    php -d max_execution_time=300 /var/www/html/tao/scripts/taoInstall.php -vvv --file_path $FILE_PATH --db_driver $DB_DRIVER --db_host $DB_HOST --db_name $DB_NAME --db_user $DB_USER --db_pass $DB_PASSWORD --module_namespace $URL/first.rdf --module_url $URL --user_login $USER --user_pass $PASSWORD -e taoCe
+    sudo -u www-data php -d max_execution_time=300 /var/www/html/tao/scripts/taoInstall.php -vvv --file_path $FILE_PATH --db_driver $DB_DRIVER --db_host $DB_HOST --db_name $DB_NAME --db_user $DB_USER --db_pass $DB_PASSWORD --module_namespace $URL/first.rdf --module_url $URL --user_login $USER --user_pass $PASSWORD -e taoCe
         
     #Change DEBUG_MODE as false in order to have system in production mode.
     export search="define('DEBUG_MODE', true);"
     export replace="define('DEBUG_MODE', false);"
     sed -i "s/$search/$replace/" /var/www/html/config/generis.conf.php
-
-    #Change property of TAO directories to user www-data again.
-    chown -R www-data:www-data /var/www/html
-    chown -R www-data:www-data /var/lib/tao/data
 
     echo "TAO platform was successully installed. TAO running at $URL."
    
