@@ -51,14 +51,14 @@ RUN docker-php-ext-install pdo_mysql mysqli pgsql pdo_pgsql gd opcache zip calen
 RUN docker-php-ext-enable igbinary redis
 
 RUN { \
-    echo 'opcache.memory_consumption=128'; \
-    echo 'opcache.interned_strings_buffer=8'; \
-    echo 'opcache.max_accelerated_files=4000'; \
-    echo 'opcache.revalidate_freq=2'; \
-    echo 'opcache.fast_shutdown=1'; \
-    echo 'opcache.enable_cli=1'; \
-    echo 'opcache.load_comments=1'; \
-} >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
+  echo 'opcache.memory_consumption=128'; \
+  echo 'opcache.interned_strings_buffer=8'; \
+  echo 'opcache.max_accelerated_files=4000'; \
+  echo 'opcache.revalidate_freq=2'; \
+  echo 'opcache.fast_shutdown=1'; \
+  echo 'opcache.enable_cli=1'; \
+  echo 'opcache.load_comments=1'; \
+  } >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
 
 COPY --from=builder /usr/src/tao /var/www/html
 RUN chown -R www-data:www-data /var/www/html
@@ -66,6 +66,7 @@ RUN chown -R www-data:www-data /var/www/html
 RUN mkdir -p $FILE_PATH && chown www-data:www-data $FILE_PATH
 
 VOLUME $FILE_PATH
+VOLUME /var/www/html
 
 ENV WAIT_VERSION 2.7.2
 RUN curl -o wait -LJO https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERSION/wait \
