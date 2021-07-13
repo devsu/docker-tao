@@ -1,6 +1,6 @@
 # builder
 
-FROM php:7.3-fpm-alpine as builder
+FROM php:7.3-fpm-alpine3.13 as builder
 
 ARG TAO_VERSION
 ENV TAO_VERSION ${TAO_VERSION:-3.4-rc01}
@@ -24,7 +24,7 @@ RUN curl -o tao.zip -LJO https://github.com/oat-sa/package-tao/archive/v${TAO_VE
 
 # runner
 
-FROM php:7.3-fpm-alpine as runner
+FROM php:7.3-fpm-alpine3.13 as runner
 
 ARG FILE_PATH
 ENV FILE_PATH ${FILE_PATH:-/var/lib/tao/data}
