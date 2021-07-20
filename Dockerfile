@@ -6,20 +6,28 @@ ARG TAO_VERSION
 ENV TAO_VERSION ${TAO_VERSION:-3.4-rc01}
 
 # Install dependencies
-RUN apk add --no-cache nodejs git npm
+RUN apk add --no-cache nodejs git npm openssh
 
 # Install composer
 RUN wget https://raw.githubusercontent.com/composer/getcomposer.org/55e3ac0516cf01802649468315cd863bcd46a73f/web/installer -O - -q | php -- --quiet \
   && mv composer.phar /usr/local/bin/composer
 
-RUN echo Downloading and installing TAO version "${TAO_VERSION}"
+RUN echo Downloading TAO version "${TAO_VERSION}"
 
 RUN curl -o tao.zip -LJO https://github.com/oat-sa/package-tao/archive/v${TAO_VERSION}.zip \
   && unzip -qq tao.zip -d /usr/src \
-  && mv /usr/src/package-tao-${TAO_VERSION} /usr/src/tao \
-  && composer self-update --1 \ 
+  && mv /usr/src/package-tao-${TAO_VERSION} /usr/src/tao
+
+RUN echo Replacing composer.json file
+
+COPY presets/composer.json /tmp/composer.json
+RUN mv /tmp/composer.json /usr/src/tao/composer.json
+
+RUN echo Installing TAO
+
+RUN composer self-update --1 \ 
   && composer config --global process-timeout 2000 \ 
-  && composer install -d /usr/src/tao \
+  && composer update -d /usr/src/tao \
   && rm tao.zip
 
 # runner
